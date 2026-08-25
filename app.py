@@ -157,3 +157,4 @@ st.download_button(
     data=pdf_data,
     file_name="student_leetcode_report.pdf",
     mime="application/pdf"
+)
