@@ -32,7 +32,9 @@ st.title("Classroom LeetCode Tracker")
 
 # 1. Load the student list
 try:
-    students_df = pd.read_csv("students.csv")
+    sheet_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTB1KTGC5kFMwErEpa6W7iDRWFw0DOXPIIG9P6f7JuSI-bKBYMGzGT6H9Iub1VE8E5oQcmerE8iBT8l/pub?output=csv"
+    students_df = pd.read_csv(sheet_url)
+    
 except FileNotFoundError:
     st.error("Please create a 'students.csv' file with 'name' and 'leetcode_username' columns.")
     st.stop()
