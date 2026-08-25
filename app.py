@@ -56,8 +56,11 @@ def generate_pdf(dataframe):
         textColor=colors.HexColor("#0f172a"),
         spaceAfter=12
     )
+
+    current_time_str = datetime.now().strftime("%B %d, %Y at %I:%M %p")
     elements.append(Paragraph("Student LeetCode Performance Report", title_style))
-    elements.append(Spacer(1, 10))
+    elements.append(Paragraph(f"<b>Generated on:</b> {current_time_str} • Classroom Tracker", timestamp_style))
+    elements.append(Spacer(1, 5))
 
     # Convert DataFrame to Table data
     table_data = [[
