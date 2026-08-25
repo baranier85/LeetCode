@@ -58,6 +58,15 @@ def generate_pdf(dataframe):
         spaceAfter=12
     )
 
+    timestamp_style = ParagraphStyle(
+        'Timestamp',
+        parent=styles['Normal'],
+        fontSize=9,
+        leading=12,
+        textColor=colors.HexColor("#64748b"),
+        spaceAfter=14
+    )
+
     current_time_str = datetime.now().strftime("%B %d, %Y at %I:%M %p")
     elements.append(Paragraph("Student LeetCode Performance Report", title_style))
     elements.append(Paragraph(f"<b>Generated on:</b> {current_time_str} • Classroom Tracker", timestamp_style))
