@@ -31,7 +31,7 @@ def get_leetcode_stats(username):
 st.title("Classroom LeetCode Tracker")
 
 # Replace with your actual student usernames
-students = ["Jcvvt6HHj8", "tourist"] 
+students = ["Jcvvt6HHj8", "tourist","muktij"] 
 
 data = []
 for username in students:
