@@ -3,6 +3,11 @@ import streamlit as st
 import pandas as pd
 import requests
 
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib import colors
+
 def get_leetcode_stats(username):
     url = "https://leetcode.com/graphql"
     query = """
