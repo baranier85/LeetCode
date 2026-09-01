@@ -4,6 +4,8 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 import requests
+import plotly.express as px
+import plotly.graph_objects as go
 
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
