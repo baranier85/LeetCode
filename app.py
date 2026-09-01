@@ -172,7 +172,7 @@ if uploaded_file:
         st.session_state.processed_df = full_df
 
 if "processed_df" in st.session_state:
-
+    df = st.session_state.processed_df
     st.header("📈 Inter-Section Comparison & Analytics")
 
     # 1. Aggregate metrics by Section
@@ -258,7 +258,7 @@ if "processed_df" in st.session_state:
     use_container_width=True
     )
     
-    df = st.session_state.processed_df
+    
     
     sections = {sec: group.sort_values(by="Total Solved", ascending=False).reset_index(drop=True) 
                 for sec, group in df.groupby("Section")}
