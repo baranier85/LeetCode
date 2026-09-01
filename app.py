@@ -175,8 +175,8 @@ if "processed_df" in st.session_state:
 
     st.header("📈 Inter-Section Comparison & Analytics")
 
-# 1. Aggregate metrics by Section
-section_summary = df.groupby("Section").agg(
+    # 1. Aggregate metrics by Section
+    section_summary = df.groupby("Section").agg(
     Total_Students=("Reg No", "count"),
     Avg_Solved=("Total Solved", "mean"),
     Max_Solved=("Total Solved", "max"),
@@ -184,45 +184,45 @@ section_summary = df.groupby("Section").agg(
     Total_Medium=("Medium", "sum"),
     Total_Hard=("Hard", "sum"),
     Active_Students=("Total Solved", lambda x: (x > 0).sum())
-).reset_index()
+    ).reset_index()
 
-section_summary["Avg_Solved"] = section_summary["Avg_Solved"].round(1)
+    section_summary["Avg_Solved"] = section_summary["Avg_Solved"].round(1)
 
-# 2. Key High-Level KPI Cards
-kpi1, kpi2, kpi3, kpi4 = st.columns(4)
-best_sec = section_summary.sort_values(by="Avg_Solved", ascending=False).iloc[0]
+    # 2. Key High-Level KPI Cards
+    kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+    best_sec = section_summary.sort_values(by="Avg_Solved", ascending=False).iloc[0]
 
-kpi1.metric("Top Performing Section", f"{best_sec['Section']}")
-kpi2.metric("Highest Average Solved", f"{best_sec['Avg_Solved']} problems")
-kpi3.metric("Total Hard Problems (All)", f"{df['Hard'].sum()}")
-kpi4.metric("Active Participation Rate", f"{(df['Total Solved'] > 0).mean() * 100:.1f}%")
+    kpi1.metric("Top Performing Section", f"{best_sec['Section']}")
+    kpi2.metric("Highest Average Solved", f"{best_sec['Avg_Solved']} problems")
+    kpi3.metric("Total Hard Problems (All)", f"{df['Hard'].sum()}")
+    kpi4.metric("Active Participation Rate", f"{(df['Total Solved'] > 0).mean() * 100:.1f}%")
 
-st.markdown("---")
+    st.markdown("---")
 
-# 3. Chart 1: Average Solved per Section (Ranked Bar Chart)
-col_left, col_right = st.columns(2)
+    # 3. Chart 1: Average Solved per Section (Ranked Bar Chart)
+    col_left, col_right = st.columns(2)
 
-with col_left:
-    st.subheader("🏆 Average Problems Solved per Student")
-    fig_avg = px.bar(
-        section_summary.sort_values(by="Avg_Solved", ascending=True),
-        x="Avg_Solved",
-        y="Section",
-        orientation="h",
-        text="Avg_Solved",
-        color="Avg_Solved",
-        color_continuous_scale="Blues",
-        labels={"Avg_Solved": "Average Solved Count", "Section": "Class Section"}
-    )
+    with col_left:
+          st.subheader("🏆 Average Problems Solved per Student")
+          fig_avg = px.bar(
+          section_summary.sort_values(by="Avg_Solved", ascending=True),
+          x="Avg_Solved",
+          y="Section",
+          orientation="h",
+          text="Avg_Solved",
+          color="Avg_Solved",
+          color_continuous_scale="Blues",
+          labels={"Avg_Solved": "Average Solved Count", "Section": "Class Section"}
+          )
     fig_avg.update_layout(showlegend=False, margin=dict(l=20, r=20, t=30, b=20))
     st.plotly_chart(fig_avg, use_container_width=True)
 
-# 4. Chart 2: Stacked Breakdown by Difficulty (Easy / Med / Hard)
-with col_right:
-    st.subheader("🧩 Difficulty Breakdown by Section")
-    # Melt dataframe for easy multi-color stacked bar representation
-    melted_diff = df.groupby("Section")[["Easy", "Medium", "Hard"]].mean().reset_index()
-    melted_diff = pd.melt(melted_diff, id_vars=["Section"], value_vars=["Easy", "Medium", "Hard"],
+    # 4. Chart 2: Stacked Breakdown by Difficulty (Easy / Med / Hard)
+    with col_right:
+       st.subheader("🧩 Difficulty Breakdown by Section")
+       # Melt dataframe for easy multi-color stacked bar representation
+       melted_diff = df.groupby("Section")[["Easy", "Medium", "Hard"]].mean().reset_index()
+       melted_diff = pd.melt(melted_diff, id_vars=["Section"], value_vars=["Easy", "Medium", "Hard"],
                           var_name="Difficulty", value_name="Average Count")
     
     fig_diff = px.bar(
@@ -237,9 +237,9 @@ with col_right:
     fig_diff.update_layout(margin=dict(l=20, r=20, t=30, b=20))
     st.plotly_chart(fig_diff, use_container_width=True)
 
-# 5. Chart 3: Distribution Box Plot (Identifies outliers and overall spread)
-st.subheader("📦 Problem Distribution & Spread (Box Plot)")
-fig_box = px.box(
+  # 5. Chart 3: Distribution Box Plot (Identifies outliers and overall spread)
+  st.subheader("📦 Problem Distribution & Spread (Box Plot)")
+  fig_box = px.box(
     df,
     x="Section",
     y="Total Solved",
@@ -247,18 +247,18 @@ fig_box = px.box(
     points="all", # Shows individual student dots alongside box plots
     hover_data=["Name", "Reg No", "Total Solved"],
     labels={"Total Solved": "Total Problems Solved"}
-)
-fig_box.update_layout(showlegend=False, margin=dict(l=20, r=20, t=30, b=20))
-st.plotly_chart(fig_box, use_container_width=True)
+  )
+  fig_box.update_layout(showlegend=False, margin=dict(l=20, r=20, t=30, b=20))
+  st.plotly_chart(fig_box, use_container_width=True)
 
-# 6. Comparative Summary Table
-st.subheader("📋 Section Leaderboard Summary")
-st.dataframe(
-    section_summary.sort_values(by="Avg_Solved", ascending=False).reset_index(drop=True),
+  # 6. Comparative Summary Table
+  st.subheader("📋 Section Leaderboard Summary")
+  st.dataframe(
+  section_summary.sort_values(by="Avg_Solved", ascending=False).reset_index(drop=True),
     use_container_width=True
-)
+   )
     
-    df = st.session_state.processed_df
+ df = st.session_state.processed_df
     
     sections = {sec: group.sort_values(by="Total Solved", ascending=False).reset_index(drop=True) 
                 for sec, group in df.groupby("Section")}
