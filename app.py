@@ -238,25 +238,25 @@ if "processed_df" in st.session_state:
     st.plotly_chart(fig_diff, use_container_width=True)
 
   # 5. Chart 3: Distribution Box Plot (Identifies outliers and overall spread)
-  st.subheader("📦 Problem Distribution & Spread (Box Plot)")
-  fig_box = px.box(
-    df,
-    x="Section",
-    y="Total Solved",
-    color="Section",
-    points="all", # Shows individual student dots alongside box plots
-    hover_data=["Name", "Reg No", "Total Solved"],
+    st.subheader("📦 Problem Distribution & Spread (Box Plot)")
+    fig_box = px.box(
+     df,
+     x="Section",
+     y="Total Solved",
+     color="Section",
+     points="all", # Shows individual student dots alongside box plots
+     hover_data=["Name", "Reg No", "Total Solved"],
     labels={"Total Solved": "Total Problems Solved"}
-  )
-  fig_box.update_layout(showlegend=False, margin=dict(l=20, r=20, t=30, b=20))
-  st.plotly_chart(fig_box, use_container_width=True)
+    )
+    fig_box.update_layout(showlegend=False, margin=dict(l=20, r=20, t=30, b=20))
+    st.plotly_chart(fig_box, use_container_width=True)
 
   # 6. Comparative Summary Table
-  st.subheader("📋 Section Leaderboard Summary")
-  st.dataframe(
-  section_summary.sort_values(by="Avg_Solved", ascending=False).reset_index(drop=True),
+    st.subheader("📋 Section Leaderboard Summary")
+    st.dataframe(
+    section_summary.sort_values(by="Avg_Solved", ascending=False).reset_index(drop=True),
     use_container_width=True
-   )
+    )
     
  df = st.session_state.processed_df
     
